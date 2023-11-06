@@ -46,6 +46,7 @@ function createWorld() {
   renderer = new THREE.WebGLRenderer({antialias:false, alpha:true});
   renderer.setSize(_width, _height);
   renderer.shadowMap.enabled = true;
+  // renderer.setPixelRatio( window.devicePixelRatio, 2 );
   // camera.fov = Math.atan(_width / 2 / camera.position.z) * 2 * THREE.Math.RAD2DEG;
 
   //---
@@ -145,7 +146,7 @@ var options = {
   sphere: {
     wireframe: false,
     points: true,
-    psize: 1.7
+    psize: 1.8
   }
 }
 

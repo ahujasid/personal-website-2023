@@ -25,6 +25,7 @@ body {
     font-family: sans-serif;
     font-size: 0.9375rem;
     color: rgba(0,0,0,0.5);
+    overflow: hidden;
    
   }
   canvas {
@@ -136,8 +137,9 @@ body {
   body{
       font-size: 1rem;
       height: auto;
-      padding: 1rem;
+      /* padding: 1rem; */
       padding-bottom: 3rem;
+      overflow: visible;
   }
 
   canvas{
