@@ -39,12 +39,15 @@ function createWorld() {
   scene.background = new THREE.Color(Theme._dark);
   scene.add(groupMoon);
   //---
-  camera = new THREE.PerspectiveCamera(20, _width/_height, 1, 1000);
+  camera = new THREE.PerspectiveCamera(35, _width/_height, 1, 1000);
   camera.position.set(0,10,120);
+  // camera.aspect = _height / _width;
   //---
   renderer = new THREE.WebGLRenderer({antialias:false, alpha:true});
   renderer.setSize(_width, _height);
   renderer.shadowMap.enabled = true;
+  // camera.fov = Math.atan(_width / 2 / camera.position.z) * 2 * THREE.Math.RAD2DEG;
+
   //---
   document.body.appendChild(renderer.domElement);
   //---
@@ -57,6 +60,7 @@ function onWindowResize() {
   renderer.setSize(_width, _height);
   camera.aspect = _width / _height;
   camera.updateProjectionMatrix();
+  // camera.fov = Math.atan(_width / 2 / camera.position.z) * 2 * THREE.Math.RAD2DEG;
 }
 //--------------------------------------------------------------------
 function createLights() {
@@ -141,7 +145,7 @@ var options = {
   sphere: {
     wireframe: false,
     points: true,
-    psize: 3
+    psize: 1.7
   }
 }
 
