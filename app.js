@@ -146,7 +146,7 @@ var options = {
   sphere: {
     wireframe: false,
     points: true,
-    psize: 1.8
+    psize: 1.5
   }
 }
 
