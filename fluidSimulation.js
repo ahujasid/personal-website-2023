@@ -47,7 +47,7 @@ let config = {
     COLORFUL: true,
     COLOR_UPDATE_SPEED: 5,
     PAUSED: false,
-    BACK_COLOR: { r: 0, g: 0, b: 0 },
+    BACK_COLOR: { r: 10, g: 10, b: 10 },
     TRANSPARENT: false,
     BLOOM: true,
     BLOOM_ITERATIONS: 8,
@@ -109,7 +109,7 @@ function getWebGLContext (canvas) {
         supportLinearFiltering = gl.getExtension('OES_texture_half_float_linear');
     }
 
-    gl.clearColor(0.2, 0.2, 0.2, 1.0);
+    gl.clearColor(0.05, 0.05, 0.05, 1.0);
 
     const halfFloatTexType = isWebGL2 ? gl.HALF_FLOAT : halfFloat.HALF_FLOAT_OES;
     let formatRGBA;
@@ -1407,18 +1407,6 @@ function correctRadius (radius) {
 //     updatePointerDownData(pointer, -1, posX, posY);
 // });
 
-canvas.addEventListener('mousemove', e => {
-    let pointer = pointers[0];
-    // if (!pointer.down) return;
-    let posX = scaleByPixelRatio(e.offsetX);
-    let posY = scaleByPixelRatio(e.offsetY);
-    updatePointerMoveData(pointer, posX, posY);
-});
-
-// window.addEventListener('mouseup', () => {
-//     updatePointerUpData(pointers[0]);
-// });
-
 function getCorrectedTouchPosition(touch, canvas) {
     const rect = canvas.getBoundingClientRect(); // Gets the canvas position relative to the viewport
     const scaleX = canvas.width / rect.width;    // Adjust for CSS scaling
@@ -1430,9 +1418,36 @@ function getCorrectedTouchPosition(touch, canvas) {
     return { x, y };
 }
 
-window.addEventListener('touchstart', e => {
+function isMobile() {
+    let isMobile = false;
+ 
+    if (navigator.userAgent.match(/Android/i)
+        || navigator.userAgent.match(/webOS/i)
+        || navigator.userAgent.match(/iPhone/i)
+        || navigator.userAgent.match(/iPad/i)
+        || navigator.userAgent.match(/iPod/i)
+        || navigator.userAgent.match(/BlackBerry/i)
+        || navigator.userAgent.match(/Windows Phone/i)) {
+        isMobile = true;
+    } else {
+        isMobile = false;
+    }
+
+    return isMobile;
+}
+
+
+function onMouseMove(event){
+    let pointer = pointers[0];
+    // if (!pointer.down) return;
+    let posX = scaleByPixelRatio(event.offsetX);
+    let posY = scaleByPixelRatio(event.offsetY);
+    updatePointerMoveData(pointer, posX, posY);
+}
+
+function onTouchStart(event){
     // e.preventDefault();
-    const touches = e.targetTouches;
+    const touches = event.targetTouches;
     while (touches.length >= pointers.length)
         pointers.push(new pointerPrototype());
     for (let i = 0; i < touches.length; i++) {
@@ -1441,12 +1456,11 @@ window.addEventListener('touchstart', e => {
         const correctedPosition = getCorrectedTouchPosition(touches[i], canvas);
         updatePointerDownData(pointers[i + 1], touches[i].identifier, correctedPosition.x, correctedPosition.y);
     }
+}
 
-});
-
-window.addEventListener('touchmove', e => {
+function onTouchMove(event){
     // e.preventDefault();
-    const touches = e.targetTouches;
+    const touches = event.targetTouches;
     for (let i = 0; i < touches.length; i++) {
         const correctedPosition = getCorrectedTouchPosition(touches[i], canvas);
         let pointer = pointers[i + 1];
@@ -1455,17 +1469,40 @@ window.addEventListener('touchmove', e => {
         // let posY = scaleByPixelRatio(touches[i].pageY);
         updatePointerMoveData(pointer, correctedPosition.x, correctedPosition.y);
     }
-}, false);
+}
 
-window.addEventListener('touchend', e => {
-    const touches = e.changedTouches;
+function onTouchEnd(event){
+    const touches = event.changedTouches;
     for (let i = 0; i < touches.length; i++)
     {
         let pointer = pointers.find(p => p.id == touches[i].identifier);
         if (pointer == null) continue;
         updatePointerUpData(pointer);
     }
+}
+    
+
+window.addEventListener('load', () => {
+    setTimeout(() => {
+
+        if(isMobile()){
+            window.addEventListener('touchstart', onTouchStart);
+            window.addEventListener('touchmove', onTouchMove, false);
+            window.addEventListener('touchend', onTouchEnd);
+        }
+        else{
+            canvas.addEventListener('mousemove', onMouseMove);
+        }
+
+    }, 1000); 
+
 });
+
+// window.addEventListener('mouseup', () => {
+//     updatePointerUpData(pointers[0]);
+// });
+
+
 
 // window.addEventListener('keydown', e => {
 //     if (e.code === 'KeyP')
