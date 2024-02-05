@@ -1,3 +1,8 @@
+:root{
+  --background: #171616;
+  --text: #fafafa;
+  --text-light: #CCCCCC;
+}
 
 @font-face {
   font-family: serif-medium;
@@ -17,14 +22,14 @@
 
 
 body {
-    background-color: white;
+    background-color: var(--background);
     padding: 1rem;
     height: 100%;
     width: 100%;
     max-width: 1440px;
     font-family: sans-serif;
     font-size: 0.9375rem;
-    color: rgba(0,0,0,0.5);
+    color: var(--text-light);
     overflow: hidden;
    
   }
@@ -35,9 +40,10 @@ body {
     display: block;
     width: 100%;
     height: 100%;
-    opacity: 0.08;
+    opacity: 1;
     z-index: -1;
-    scale: 1.4;
+    /* -webkit-filter: invert(100%);
+    filter: invert(100%); */
   }
 
   #top-content{
@@ -57,7 +63,7 @@ body {
   
   a, a:visited {
     text-decoration: none;
-    color: rgba(0,0,0,0.5);
+    color: var(--text-light);
     display: inline-block;
     position: relative;
     transition: color 0.5s ease-out;
@@ -88,14 +94,14 @@ body {
     font-size: 1.125rem;
     font-family: sans-serif;
     font-weight: 300;
-    color: rgba(0,0,0,0.5);
+    color: var(--text-light);
   }
 
   h2{
     font-size: 4rem;
     font-family: serif-light;
     font-weight: 300;
-    color: rgba(0,0,0,0.9);
+    color: var(--text);
     line-height: 1.1;
   }
 
@@ -103,7 +109,7 @@ body {
     font-family: serif-medium;
     font-weight: 600;
     font-size: 0.9375rem;
-    color: rgba(0,0,0,0.8);
+    color: var(--text);
     /* font-style: italic; */
   }
 
@@ -116,7 +122,7 @@ body {
     height: 1px;
     bottom: 0;
     left: 0;
-    background-color: #222;
+    background-color: var(--text-light);
     transform-origin: bottom right;
     transition: transform 0.5s ease-out;
   }
@@ -124,11 +130,11 @@ body {
   .link:hover::after {
     transform: scaleX(1);
     transform-origin: bottom left;
-    color: #222;
+    color: var(--text-light);
   }
 
   a:hover{
-    color: #222;
+    color: var(--text);
   }
 
 
@@ -144,8 +150,14 @@ body {
   }
 
   canvas{
-    scale: 0.8;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
   }
+
+
   
   #top-content{
       width: 100%;
